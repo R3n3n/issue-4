@@ -55,8 +55,45 @@
                        class="btn btn-info btn-sm">
                         Details
                     </a>
+
+                    <form asp-area="Admin"
+                          asp-controller="Users"
+                          asp-action="Delete"
+                          asp-route-id="@user.Id"
+                          method="post"
+                          style="display:inline"
+                          onsubmit="return confirm('Deactivate this user?');">
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            Delete
+                        </button>
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@{
+    var currentPage = (int)(ViewBag.CurrentPage ?? 1);
+    var totalPages = (int)(ViewBag.TotalPages ?? 1);
+}
+
+@if (totalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-area="Admin"
+                       asp-controller="Users"
+                       asp-action="Index"
+                       asp-route-page="@i">
+                        @i
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
